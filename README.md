@@ -5,12 +5,12 @@ The following code is based on the KL method of <a href=http://citeseerx.ist.psu
 
 The following files are created based on the code, approxKL.m.
 <br>
-approxKLWithLBFGS.m (modified based on approxKL.m)
+approxKLWithLBFGS.m (modified, based on approxKL.m)
 <br>
-approxPiecesVB.m (modified based on approxKL.m)
+approxPiecesVB.m (modified, based on approxKL.m)
 <br>
 
-You can run the following examples using GPML 2.0 (is included in this repo)
+You can run the following examples using GPML 2.0 (included in this repo)
 <PRE>clear all<B><FONT COLOR="#663300">;</FONT></B> close all<B><FONT COLOR="#663300">;</FONT></B>
 
 x1<B><FONT COLOR="#663300">=[</FONT></B><FONT COLOR="#996600">0.8822936</FONT><B><FONT COLOR="#663300">

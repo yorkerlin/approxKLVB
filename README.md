@@ -154,6 +154,6 @@ The implementation of variational piecewise bound for logit likelihood is based 
 <a href=http://www.cs.ubc.ca/~emtiyaz/papers/truncatedGaussianMoments.pdf>Appendix</a>
 )
 
-The implementation of the KL method is based on the following code from http://hannes.nickisch.org/
+The implementation of the KL method is based on the following code from http://hannes.nickisch.org/ <br>
 <a href=http://hannes.nickisch.org/code/approxXX.tar.gz>Matlab code</a>,
 which is used the <a href=http://www.gaussianprocess.org/gpml/code/matlab/release/gpml-matlab-v2.0-2007-06-25.tar.gz>GPML 2.0 package</a> 

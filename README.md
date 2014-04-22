@@ -8,51 +8,48 @@ approxKLWithLBFGS.m
 approxPiecesVB.m
 
 You can run the following examples using GPML 2.0 (is included in this repo)
+<PRE>clear all<B><FONT COLOR="#663300">;</FONT></B> close all<B><FONT COLOR="#663300">;</FONT></B>
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-clear all; close all;
-x1=[0.8822936
--0.7160792
-0.9178174
--0.0135544
--0.5275911];
+x1<B><FONT COLOR="#663300">=[</FONT></B><FONT COLOR="#996600">0.8822936</FONT><B><FONT COLOR="#663300">
+-</FONT></B><FONT COLOR="#996600">0.7160792
+0.9178174</FONT><B><FONT COLOR="#663300">
+-</FONT></B><FONT COLOR="#996600">0.0135544</FONT><B><FONT COLOR="#663300">
+-</FONT></B><FONT COLOR="#996600">0.5275911</FONT><B><FONT COLOR="#663300">];</FONT></B>
 
-x2=[-0.9597321
+x2<B><FONT COLOR="#663300">=[-</FONT></B><FONT COLOR="#996600">0.9597321
 0.0231289
 0.8284935
-0.0023812
--0.7218931];
+0.0023812</FONT><B><FONT COLOR="#663300">
+-</FONT></B><FONT COLOR="#996600">0.7218931</FONT><B><FONT COLOR="#663300">];</FONT></B>
 
-x=[x1 x2];
+x<B><FONT COLOR="#663300">=[</FONT></B>x1 x2<B><FONT COLOR="#663300">];</FONT></B>
 
-y=[1
--1
-1
--1
--1];
+y<B><FONT COLOR="#663300">=[</FONT></B><FONT COLOR="#999900">1</FONT><B><FONT COLOR="#663300">
+-</FONT></B><FONT COLOR="#999900">1
+1</FONT><B><FONT COLOR="#663300">
+-</FONT></B><FONT COLOR="#999900">1</FONT><B><FONT COLOR="#663300">
+-</FONT></B><FONT COLOR="#999900">1</FONT><B><FONT COLOR="#663300">];</FONT></B>
 
-hyp.cov = log([2; 2]);
-cov = {'covSEiso'};
-lik = 'logistic';
+hyp<B><FONT COLOR="#663300">.</FONT></B>cov<B><FONT COLOR="#663300"> =</FONT></B> log<B><FONT COLOR="#663300">([</FONT></B><FONT COLOR="#999900">2</FONT><B><FONT COLOR="#663300">;</FONT></B><FONT COLOR="#999900"> 2</FONT><B><FONT COLOR="#663300">]);</FONT></B>
+cov<B><FONT COLOR="#663300"> = {</FONT></B><FONT COLOR="#009900">'covSEiso'</FONT><B><FONT COLOR="#663300">};</FONT></B>
+lik<B><FONT COLOR="#663300"> =</FONT></B><FONT COLOR="#009900"> 'logistic'</FONT><B><FONT COLOR="#663300">;
 
-%for Laplace method
-apx = 'LA';      
-[nlZ dnlZ          ] = binaryGP(hyp.cov, ['approx',apx], cov, lik, x, y) 
+%</FONT></B><FONT COLOR="#FF0000">for</FONT> Laplace method
+apx<B><FONT COLOR="#663300"> =</FONT></B><FONT COLOR="#009900"> 'LA'</FONT><B><FONT COLOR="#663300">;      
+[</FONT></B>nlZ dnlZ<B><FONT COLOR="#663300">          ] =</FONT></B> binaryGP<B><FONT COLOR="#663300">(</FONT></B>hyp<B><FONT COLOR="#663300">.</FONT></B>cov<B><FONT COLOR="#663300">, [</FONT></B><FONT COLOR="#009900">'approx'</FONT><B><FONT COLOR="#663300">,</FONT></B>apx<B><FONT COLOR="#663300">],</FONT></B> cov<B><FONT COLOR="#663300">,</FONT></B> lik<B><FONT COLOR="#663300">,</FONT></B> x<B><FONT COLOR="#663300">,</FONT></B> y<B><FONT COLOR="#663300">) 
 
-%for original KL method (which uses Newton method to find opt parameters)
-apx = 'KL';      
-[nlZ dnlZ          ] = binaryGP(hyp.cov, ['approx',apx], cov, lik, x, y) 
+%</FONT></B><FONT COLOR="#FF0000">for</FONT> original KL method<B><FONT COLOR="#663300"> (</FONT></B>which uses Newton method to find opt parameters<B><FONT COLOR="#663300">)</FONT></B>
+apx<B><FONT COLOR="#663300"> =</FONT></B><FONT COLOR="#009900"> 'KL'</FONT><B><FONT COLOR="#663300">;      
+[</FONT></B>nlZ dnlZ<B><FONT COLOR="#663300">          ] =</FONT></B> binaryGP<B><FONT COLOR="#663300">(</FONT></B>hyp<B><FONT COLOR="#663300">.</FONT></B>cov<B><FONT COLOR="#663300">, [</FONT></B><FONT COLOR="#009900">'approx'</FONT><B><FONT COLOR="#663300">,</FONT></B>apx<B><FONT COLOR="#663300">],</FONT></B> cov<B><FONT COLOR="#663300">,</FONT></B> lik<B><FONT COLOR="#663300">,</FONT></B> x<B><FONT COLOR="#663300">,</FONT></B> y<B><FONT COLOR="#663300">) 
 
+%</FONT></B><FONT COLOR="#FF0000">for</FONT> KL method with L<B><FONT COLOR="#663300">-</FONT></B>BFGS
+apx<B><FONT COLOR="#663300"> =</FONT></B><FONT COLOR="#009900"> 'KLWithLBFGS'</FONT><B><FONT COLOR="#663300">;      
+[</FONT></B>nlZ dnlZ<B><FONT COLOR="#663300">          ] =</FONT></B> binaryGP<B><FONT COLOR="#663300">(</FONT></B>hyp<B><FONT COLOR="#663300">.</FONT></B>cov<B><FONT COLOR="#663300">, [</FONT></B><FONT COLOR="#009900">'approx'</FONT><B><FONT COLOR="#663300">,</FONT></B>apx<B><FONT COLOR="#663300">],</FONT></B> cov<B><FONT COLOR="#663300">,</FONT></B> lik<B><FONT COLOR="#663300">,</FONT></B> x<B><FONT COLOR="#663300">,</FONT></B> y<B><FONT COLOR="#663300">) 
 
-%for KL method with L-BFGS
-apx = 'KLWithLBFGS';      
-[nlZ dnlZ          ] = binaryGP(hyp.cov, ['approx',apx], cov, lik, x, y) 
+%</FONT></B><FONT COLOR="#FF0000">for</FONT> KL method<FONT COLOR="#990000"> using</FONT> piecewise bound with L<B><FONT COLOR="#663300">-</FONT></B>BFGS
+apx<B><FONT COLOR="#663300"> =</FONT></B><FONT COLOR="#009900"> 'PiecesVB'</FONT><B><FONT COLOR="#663300">;      
+[</FONT></B>nlZ dnlZ<B><FONT COLOR="#663300">          ] =</FONT></B> binaryGP<B><FONT COLOR="#663300">(</FONT></B>hyp<B><FONT COLOR="#663300">.</FONT></B>cov<B><FONT COLOR="#663300">, [</FONT></B><FONT COLOR="#009900">'approx'</FONT><B><FONT COLOR="#663300">,</FONT></B>apx<B><FONT COLOR="#663300">],</FONT></B> cov<B><FONT COLOR="#663300">,</FONT></B> lik<B><FONT COLOR="#663300">,</FONT></B> x<B><FONT COLOR="#663300">,</FONT></B> y<B><FONT COLOR="#663300">)</FONT></B> </PRE>
 
-
-%for KL method using piecewise bound with L-BFGS
-apx = 'PiecesVB';      
-[nlZ dnlZ          ] = binaryGP(hyp.cov, ['approx',apx], cov, lik, x, y) 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Output for the Laplace method from GPML 2.0 is
 nlZ =
 
@@ -100,42 +97,40 @@ dnlZ =
     0.0925
 	
 
-
-
 The corresponding code of Laplace method for GPML 3.4 is (Note that you need to install the GPML 3.4 package first)
+<PRE>clear all<B><FONT COLOR="#663300">;</FONT></B> close all<B><FONT COLOR="#663300">;</FONT></B>
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-clear all; close all;
-meanfunc = @meanZero; hyp.mean=[];
-covfunc = @covSEiso; hyp.cov = log([2.0 2.0]);
-likfunc = @likLogistic; hyp.lik=[];
+meanfunc<B><FONT COLOR="#663300"> =</FONT></B> @meanZero<B><FONT COLOR="#663300">;</FONT></B> hyp<B><FONT COLOR="#663300">.</FONT></B>mean<B><FONT COLOR="#663300">=[];</FONT></B>
+covfunc<B><FONT COLOR="#663300"> =</FONT></B> @covSEiso<B><FONT COLOR="#663300">;</FONT></B> hyp<B><FONT COLOR="#663300">.</FONT></B>cov<B><FONT COLOR="#663300"> =</FONT></B> log<B><FONT COLOR="#663300">([</FONT></B><FONT COLOR="#996600">2.0 2.0</FONT><B><FONT COLOR="#663300">]);</FONT></B>
+likfunc<B><FONT COLOR="#663300"> =</FONT></B> @likLogistic<B><FONT COLOR="#663300">;</FONT></B> hyp<B><FONT COLOR="#663300">.</FONT></B>lik<B><FONT COLOR="#663300">=[];</FONT></B>
 
-x1=[0.8822936
--0.7160792
-0.9178174
--0.0135544
--0.5275911];
+x1<B><FONT COLOR="#663300">=[</FONT></B><FONT COLOR="#996600">0.8822936</FONT><B><FONT COLOR="#663300">
+-</FONT></B><FONT COLOR="#996600">0.7160792
+0.9178174</FONT><B><FONT COLOR="#663300">
+-</FONT></B><FONT COLOR="#996600">0.0135544</FONT><B><FONT COLOR="#663300">
+-</FONT></B><FONT COLOR="#996600">0.5275911</FONT><B><FONT COLOR="#663300">];</FONT></B>
 
-x2=[-0.9597321
+x2<B><FONT COLOR="#663300">=[-</FONT></B><FONT COLOR="#996600">0.9597321
 0.0231289
 0.8284935
-0.0023812
--0.7218931];
+0.0023812</FONT><B><FONT COLOR="#663300">
+-</FONT></B><FONT COLOR="#996600">0.7218931</FONT><B><FONT COLOR="#663300">];</FONT></B>
 
-x=[x1 x2];
+x<B><FONT COLOR="#663300">=[</FONT></B>x1 x2<B><FONT COLOR="#663300">];</FONT></B>
 
-y=[1
--1
-1
--1
--1];
+y<B><FONT COLOR="#663300">=[</FONT></B><FONT COLOR="#999900">1</FONT><B><FONT COLOR="#663300">
+-</FONT></B><FONT COLOR="#999900">1
+1</FONT><B><FONT COLOR="#663300">
+-</FONT></B><FONT COLOR="#999900">1</FONT><B><FONT COLOR="#663300">
+-</FONT></B><FONT COLOR="#999900">1</FONT><B><FONT COLOR="#663300">];</FONT></B>
 
-inf = @infLaplace;
-covfunc = {covfunc};
-meanfunc = {meanfunc};
-likfunc = {likfunc};
-[nlZ dnlZ          ] = gp(hyp, @infLaplace, meanfunc, covfunc, likfunc, x, y); %training 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+inf<B><FONT COLOR="#663300"> =</FONT></B> @infLaplace<B><FONT COLOR="#663300">;</FONT></B>
+covfunc<B><FONT COLOR="#663300"> = {</FONT></B>covfunc<B><FONT COLOR="#663300">};</FONT></B>
+meanfunc<B><FONT COLOR="#663300"> = {</FONT></B>meanfunc<B><FONT COLOR="#663300">};</FONT></B>
+likfunc<B><FONT COLOR="#663300"> = {</FONT></B>likfunc<B><FONT COLOR="#663300">};
+
+[</FONT></B>nlZ dnlZ<B><FONT COLOR="#663300">          ] =</FONT></B> gp<B><FONT COLOR="#663300">(</FONT></B>hyp<B><FONT COLOR="#663300">,</FONT></B> @infLaplace<B><FONT COLOR="#663300">,</FONT></B> meanfunc<B><FONT COLOR="#663300">,</FONT></B> covfunc<B><FONT COLOR="#663300">,</FONT></B> likfunc<B><FONT COLOR="#663300">,</FONT></B> x<B><FONT COLOR="#663300">,</FONT></B> y<B><FONT COLOR="#663300">)</FONT></B></PRE>
+
 Output for the Laplace method from GPML 3.4 is
 
 nlZ =

@@ -4,8 +4,11 @@ A SimpleKL method with the variational piecewise bound
 The following code is based on the KL method of <a href=http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.165.8505>Hannes Nickisch , Carlos Guestrin, 2008</a> using the variational piecewise bound obtained from <a href=https://github.com/emtiyaz/VariationalApproxExample> VariationalApproxExample</a>
 
 The following files are created based on the code,approxKL.m.
+<br>
 approxKLWithLBFGS.m
+<br>
 approxPiecesVB.m
+<br>
 
 You can run the following examples using GPML 2.0 (is included in this repo)
 <PRE>clear all<B><FONT COLOR="#663300">;</FONT></B> close all<B><FONT COLOR="#663300">;</FONT></B>

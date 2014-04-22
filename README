@@ -1,0 +1,29 @@
+In the Gaussian process code [1] of Carl Edward Rasmussen, you find two approxi-
+mation methods, namely Laplace's Approximation (approxLA.m) and Expectation 
+Propagation (approxEP.m). Examples and documentation is provided there.
+
+In the paper, Approximations for binary Gaussian process classification, we 
+compare and analyze several other non-sparse methods:
+- Direct Kullback-Leibler divergence minimization (approxKL.m)
+- Individual variational site bounding (approxVB.m)
+- Factorial Variational approximation (approxFV.m)
+- Label Regression (approxLR.m)
+The ADATAP approach (approxTAP.m) yields the same solution as EP but at higher
+computational cost; the implementation is numerically not favorable and only 
+included for reasons of completeness. A simpler variant (approxTAPnaive.m) is 
+also provided.
+Recently, we became aware of a fast single loop algorithm (approxEC.m) finding
+the same solution as EP but faster.
+
+Three sparse/online methods are included. This code is not discussed in the 
+paper but yields similar performance. It is primarily included to show that the
+interface of the GPML code treats sparse methods as well. The code is tested
+but far less reliable than the working horses (approxLA.m, approxEP.m).
+- Informative Vector Machine (approxIVM.m)
+- Sparse Online Gaussian Processes (approxSO.m)
+- Online-EP (approxOLEP,m)
+
+Hannes Nickisch, February 2, 2009
+
+[1] http://www.gaussianprocess.org/gpml/code/matlab/doc/classification.html
+[2] http://jmlr.csail.mit.edu/papers/volume9/nickisch08a/nickisch08a.pdf

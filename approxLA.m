@@ -49,6 +49,7 @@ while Psi_new - Psi_old > tol                        % begin Newton's iterations
   end 
 end                                                    % end Newton's iterations
 
+W
 sW = sqrt(W);                                                    % recalculate L
 L  = chol(eye(n)+sW*sW'.*K);                             % L'*L=B=eye(n)+sW*K*sW
 nlZ = alpha'*f/2 - lp + sum(log(diag(L)));      % approx neg log marg likelihood
@@ -56,6 +57,8 @@ nlZ = alpha'*f/2 - lp + sum(log(diag(L)));      % approx neg log marg likelihood
 if nlZ < best_nlZ                                            % if best so far ..
   best_alpha = alpha; best_nlZ = nlZ;           % .. then remember for next call
 end
+
+best_alpha
 
 if nargout >= 4                                        % do we want derivatives?
   dnlZ = zeros(size(hyper));                    % allocate space for derivatives

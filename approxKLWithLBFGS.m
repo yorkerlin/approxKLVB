@@ -48,8 +48,8 @@ alla    = alla_result{alla_id};                            % extract best result
 nlZ_new = min(nlZ_result)
 alla
 
-alpha = alla(1:end/2,1);
-W  = -2*alla(end/2+1:end,1);
+alpha = alla(1:end/2,1)
+W  = -2*alla(end/2+1:end,1)
 
 % recalculate L
 sW = sqrt(W);                     

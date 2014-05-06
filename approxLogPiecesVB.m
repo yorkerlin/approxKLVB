@@ -1,4 +1,4 @@
-function [alpha, sW, L, nlZ, dnlZ] = approxPiecesVB(hyper, covfunc, lik, x, y)
+function [alpha, sW, L, nlZ, dnlZ] = approxLogPiecesVB(hyper, covfunc, lik, x, y)
 
 % Approximation to the posterior Gaussian Process by minimization of the 
 % KL-divergence. The function takes a specified covariance function (see 
@@ -39,7 +39,6 @@ for alla_id = 1:length(alla_init)              % iterate over initial conditions
     use_pinv=false; check_cond=true;
     nlZ_old = Inf; nlZ_new = 1e100; it=0;      % make sure the while loop starts
 
-
     [alla nlZ_new] = lbfgs_VB(alla, K, y, y_conv, lik, bound); %use the lbfgs to find the opt alla
 
     % save results
@@ -53,10 +52,12 @@ alla    = alla_result{alla_id};                            % extract best result
 
 %display the result
 nlZ_new = min(nlZ_result)
+alla(end/2+1:end,1) = -exp(alla(end/2+1:end,1)); %convert log_neg_lambda to lambda
 alla
 
 alpha = alla(1:end/2,1)
 W  = -2*alla(end/2+1:end,1)
+%W  = 2*exp(alla(end/2+1:end,1));
 
 % recalculate L
 sW = sqrt(W);                     
@@ -95,6 +96,41 @@ end
 
 %% evaluation of current negative log marginal likelihood using the piecewise bound depending on the
 %  parameters alpha (al) and lambda (la)
+function [nlZ,dnlZ] = margLik_Log_VB(alla,K,y,y_conv,lik, param)
+    % extract single parameters
+    alpha  = alla(1:end/2,1);
+    log_neg_lambda = alla(end/2+1:end,1);
+	lambda = -exp(log_neg_lambda);
+    % dimensions
+    n  = length(y);
+
+    % original variables instead of alpha and la
+    VinvK = inv(eye(n)-2*K*diag(lambda));                          % A:=V*inv(K)
+    V     = VinvK*K; V=(V+V')/2;                              % enforce symmetry
+    v     = abs(diag(V));             % abs prevents numerically negative values
+    m     = K*alpha;
+    
+	%compute the function value and gradient using the piecewise bound 
+    [as, dm, dV] = ElogLik('bernLogit', y_conv, m, v, param);
+    a = sum(as);
+    
+    %negative Likelihood
+    nlZ = -a -logdet(VinvK)/2 -n/2 +(alpha'*K*alpha)/2 +trace(VinvK)/2;
+
+    if nargout>1 % gradient of Likelihood
+        dlZ_alpha  = K*(dm-alpha);
+        dlZ_lambda = 2*(V.*V)*dV +v -sum(V.*VinvK,2);   % => fast diag(V*VinvK')
+		dlZ_log_neg_lambda = dlZ_lambda .* lambda;
+
+        % stack things together  
+        %dnlZ = -[dlZ_alpha; dlZ_lambda];
+        dnlZ = -[dlZ_alpha; dlZ_log_neg_lambda];
+    end
+
+
+
+%% evaluation of current negative log marginal likelihood using the piecewise bound depending on the
+%  parameters alpha (al) and lambda (la)
 function [nlZ,dnlZ] = margLik_VB(alla,K,y,y_conv,lik, param)
     % extract single parameters
     alpha  = alla(1:end/2,1);
@@ -108,9 +144,9 @@ function [nlZ,dnlZ] = margLik_VB(alla,K,y,y_conv,lik, param)
     v     = abs(diag(V));             % abs prevents numerically negative values
     m     = K*alpha;
     
- %compute the function value and gradient using the piecewise bound 
- [as, dm, dV] = ElogLik('bernLogit', y_conv, m, v, param);
- a = sum(as);
+	%compute the function value and gradient using the piecewise bound 
+    [as, dm, dV] = ElogLik('bernLogit', y_conv, m, v, param);
+    a = sum(as);
     
     %negative Likelihood
     nlZ = -a -logdet(VinvK)/2 -n/2 +(alpha'*K*alpha)/2 +trace(VinvK)/2;
@@ -135,7 +171,7 @@ function [alla nlZ] = lbfgs_VB(alla, K, y, y_conv, lik, param)
     'Corr' , 100,...
     'optTol', 1e-15,...
     'progTol', 1e-15);
-    [alla, nlZ] = minFunc(@margLik_VB, alla, optMinFunc, K, y, y_conv, lik, param);
+    [alla, nlZ] = minFunc(@margLik_Log_VB, alla, optMinFunc, K, y, y_conv, lik, param);
 
 
 

@@ -49,11 +49,21 @@ apx<B><FONT COLOR="#663300"> =</FONT></B><FONT COLOR="#009900"> 'KL'</FONT><B><F
 apx<B><FONT COLOR="#663300"> =</FONT></B><FONT COLOR="#009900"> 'KLWithLBFGS'</FONT><B><FONT COLOR="#663300">;      
 [</FONT></B>nlZ dnlZ<B><FONT COLOR="#663300">          ] =</FONT></B> binaryGP<B><FONT COLOR="#663300">(</FONT></B>hyp<B><FONT COLOR="#663300">.</FONT></B>cov<B><FONT COLOR="#663300">, [</FONT></B><FONT COLOR="#009900">'approx'</FONT><B><FONT COLOR="#663300">,</FONT></B>apx<B><FONT COLOR="#663300">],</FONT></B> cov<B><FONT COLOR="#663300">,</FONT></B> lik<B><FONT COLOR="#663300">,</FONT></B> x<B><FONT COLOR="#663300">,</FONT></B> y<B><FONT COLOR="#663300">) 
 
+%</FONT></B><FONT COLOR="#FF0000">for</FONT> KL method with L<B><FONT COLOR="#663300">-</FONT></B>BFGS in log domain
+apx<B><FONT COLOR="#663300"> =</FONT></B><FONT COLOR="#009900"> 'LogKLWithLBFGS'</FONT><B><FONT COLOR="#663300">;      
+[</FONT></B>nlZ dnlZ<B><FONT COLOR="#663300">          ] =</FONT></B> binaryGP<B><FONT COLOR="#663300">(</FONT></B>hyp<B><FONT COLOR="#663300">.</FONT></B>cov<B><FONT COLOR="#663300">, [</FONT></B><FONT COLOR="#009900">'approx'</FONT><B><FONT COLOR="#663300">,</FONT></B>apx<B><FONT COLOR="#663300">],</FONT></B> cov<B><FONT COLOR="#663300">,</FONT></B> lik<B><FONT COLOR="#663300">,</FONT></B> x<B><FONT COLOR="#663300">,</FONT></B> y<B><FONT COLOR="#663300">) 
+
 %</FONT></B><FONT COLOR="#FF0000">for</FONT> KL method<FONT COLOR="#990000"> using</FONT> piecewise bound with L<B><FONT COLOR="#663300">-</FONT></B>BFGS
 apx<B><FONT COLOR="#663300"> =</FONT></B><FONT COLOR="#009900"> 'PiecesVB'</FONT><B><FONT COLOR="#663300">;      
+[</FONT></B>nlZ dnlZ<B><FONT COLOR="#663300">          ] =</FONT></B> binaryGP<B><FONT COLOR="#663300">(</FONT></B>hyp<B><FONT COLOR="#663300">.</FONT></B>cov<B><FONT COLOR="#663300">, [</FONT></B><FONT COLOR="#009900">'approx'</FONT><B><FONT COLOR="#663300">,</FONT></B>apx<B><FONT COLOR="#663300">],</FONT></B> cov<B><FONT COLOR="#663300">,</FONT></B> lik<B><FONT COLOR="#663300">,</FONT></B> x<B><FONT COLOR="#663300">,</FONT></B> y<B><FONT COLOR="#663300">) 
+
+%</FONT></B><FONT COLOR="#FF0000">for</FONT> KL method<FONT COLOR="#990000"> using</FONT> piecewise bound with L<B><FONT COLOR="#663300">-</FONT></B>BFGS in log domain
+apx<B><FONT COLOR="#663300"> =</FONT></B><FONT COLOR="#009900"> 'LogPiecesVB'</FONT><B><FONT COLOR="#663300">;      
 [</FONT></B>nlZ dnlZ<B><FONT COLOR="#663300">          ] =</FONT></B> binaryGP<B><FONT COLOR="#663300">(</FONT></B>hyp<B><FONT COLOR="#663300">.</FONT></B>cov<B><FONT COLOR="#663300">, [</FONT></B><FONT COLOR="#009900">'approx'</FONT><B><FONT COLOR="#663300">,</FONT></B>apx<B><FONT COLOR="#663300">],</FONT></B> cov<B><FONT COLOR="#663300">,</FONT></B> lik<B><FONT COLOR="#663300">,</FONT></B> x<B><FONT COLOR="#663300">,</FONT></B> y<B><FONT COLOR="#663300">)</FONT></B> </PRE>
 
+
 Output for the Laplace method from GPML 2.0 is
+
 nlZ =
 
     3.7607
@@ -64,41 +74,154 @@ dnlZ =
     0.6037
     0.1888
 
+alpha =
+
+    0.4419
+   -0.2456
+    0.4090
+   -0.3608
+   -0.2696
+
+W =
+
+    0.2466
+    0.1853
+    0.2417
+    0.2306
+    0.1969
 
 Output for the original KL method from GPML 2.0 is
+
 nlZ =
 
     3.6869
-
 
 dnlZ =
 
     0.6462
     0.0924
-	
+
+alpha =
+
+    0.4610
+   -0.2721
+    0.4321
+   -0.3693
+   -0.2929
+
+W =
+
+    0.1903
+    0.1607
+    0.1862
+    0.1922
+    0.1675
+
 Output for the KL method with L-BFGS from GPML 2.0 is
+
 nlZ =
 
     3.6869
-
 
 dnlZ =
 
     0.6462
     0.0924
-	
+
+alpha =
+
+    0.4610
+   -0.2721
+    0.4321
+   -0.3693
+   -0.2929
+
+W =
+
+    0.1903
+    0.1607
+    0.1862
+    0.1922
+    0.1675
+
+Output for the KL method with L-BFGS from GPML 2.0 in log domain is
+
+nlZ =
+
+    3.6869
+
+dnlZ =
+
+    0.6462
+    0.0924
+
+alpha =
+
+    0.4610
+   -0.2721
+    0.4321
+   -0.3693
+   -0.2929
+
+W =
+
+    0.1903
+    0.1607
+    0.1862
+    0.1922
+    0.1675
 
 Output for the KL method using piecewise bound with L-BFGS from GPML 2.0 is
 nlZ =
 
     3.6873
 
+dnlZ =
+
+    0.6461
+    0.0925
+
+alpha =
+
+    0.4610
+   -0.2721
+    0.4321
+   -0.3693
+   -0.2929
+
+W =
+    0.1903
+    0.1607
+    0.1862
+    0.1922
+    0.1675
+
+Output for the KL method using piecewise bound with L-BFGS from GPML 2.0 in log-domain is
+
+nlZ =
+
+    3.6873
 
 dnlZ =
 
     0.6461
     0.0925
-	
+
+alpha =
+
+    0.4610
+   -0.2721
+    0.4321
+   -0.3693
+   -0.2929
+
+W =
+
+    0.1903
+    0.1607
+    0.1862
+    0.1922
+    0.1675
 
 The corresponding code of Laplace method for GPML 3.4 is (Note that you need to install the GPML 3.4 package first)
 <PRE>clear all<B><FONT COLOR="#663300">;</FONT></B> close all<B><FONT COLOR="#663300">;</FONT></B>
@@ -140,13 +263,11 @@ nlZ =
 
     3.7607
 
-
 dnlZ = 
 
     mean: []
      cov: [0.6037 0.1888]
      lik: []
-
 
 
 We use LBFGS implemented in minFunc by Mark Schmidt to estimate the parameters

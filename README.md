@@ -172,6 +172,7 @@ W =
     0.1675
 
 Output for the KL method using piecewise bound with L-BFGS from GPML 2.0 is
+
 nlZ =
 
     3.6873
@@ -190,6 +191,7 @@ alpha =
    -0.2929
 
 W =
+
     0.1903
     0.1607
     0.1862

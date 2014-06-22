@@ -8,23 +8,11 @@ function [alpha, sW, L, nlZ, dnlZ] = approxLogPiecesVB(hyper, covfunc, lik, x, y
 % Written by Hannes Nickisch, 2007-03-29
 
 n = size(x,1);
-K = feval(covfunc{:}, hyper, x);                % evaluate the covariance matrix
+K = feval(covfunc{:}, hyper.cov, x);                % evaluate the covariance matrix
 
 % a) simply start at zero
 alla_init{1} = zeros(2*n,1);                       % stack alpha/lambda together
 
-% b) initial values based on random values heuristic
-%alla_init{2} = [y.*rand(n,1); -abs(randn(n,1))]/5000;     
-
-% c) start from Laplace approximation
-%[alpha,sW] = approxLA(hyper, covfunc, lik, x, y);
-%alla_init{3} = [alpha; -sW.^2/2];
-
-% d) use order of magnitude from Laplace starting point
-%alla_init{4} = [y*min(abs(alpha)); ones(n,1)*(-mean(abs(sW))^2/2)];
-
-% use only some inits
-%alla_init=alla_init([1,3]);
 alla_init=alla_init([1]);
 
 
@@ -71,7 +59,7 @@ nlZ = nlZ_result( alla_id);
 %estimate the hpyer parameter
 % do we want derivatives?
 if nargout >=4                                     
-    dnlZ = zeros(size(hyper));                  % allocate space for derivatives
+    dnlZ = zeros(size(hyper.cov));                  % allocate space for derivatives
 
     % parameters after optimization
     alpha  = alla(      1:end/2,1);
@@ -83,8 +71,8 @@ if nargout >=4
     a = sum(as);
 
 
-    for j=1:length(hyper)
-        dK = feval(covfunc{:},hyper,x,j);
+    for j=1:length(hyper.cov)
+        dK = feval(covfunc{:},hyper.cov,x,j);
 %           from the paper 
         %           -alpha'*dK*dm +(alpha'*dK*alpha)/2 -diag(A*dK*A')'*dC 
         %           -trace(A'*diag(lambda)*dK) +trace(A*dK*diag(lambda)*A)
@@ -92,6 +80,21 @@ if nargout >=4
         dnlZ(j) = -(alpha'*dK*(dm-alpha/2) +sum(A.*AdK,2)'*dC                ...
                     +(diag(AdK)'-sum(A'.*AdK,1))*lambda);
     end
+	dnlZ
+
+	dnlZ = hyper.cov;                                   % allocate space for derivatives
+
+	for j=1:length(hyper.cov)                                    % covariance hypers
+		dK = feval(covfunc{:},hyper.cov,x,j)
+		%dK = feval(cov{:},hyp.cov,x,[],j);
+		AdK = A*dK;
+		tmp1=sum(A.*AdK,2)
+		tmp2=sum(A'.*AdK,1)
+
+		z = diag(AdK) + sum(A.*AdK,2) - sum(A'.*AdK,1)';
+		%dnlZ(j) = alpha'*dK*(alpha/2-df) - z'*dv;
+		dnlZ(j) = alpha'*dK*(alpha/2-dm) - z'*dC;
+	end
 end
 
 %% evaluation of current negative log marginal likelihood using the piecewise bound depending on the
